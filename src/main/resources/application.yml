@@ -27,6 +27,8 @@ spring:
         format_sql: true
         show_sql: true
 
+# 운영 yml파일에는 아래 설정부분 제거(외부에서 refresh 방지)
+# http://localhost:9000/actuator/gateway/routes 로 route 조회
 management:
   endpoints:
     web:
