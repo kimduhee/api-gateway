@@ -50,8 +50,8 @@ public class RouteLocatorConfig {
                             .order(-1)
                             .path(route.getPath())
                             .filters(f -> f
-                                    .addRequestHeader("first-request", "first-request-header")
-                                    .addResponseHeader("first-response", "first-response-header")
+                                    .addRequestHeader("request", "request-header")
+                                    .addResponseHeader("response", "response-header")
                                     .filter(globalLoggingFilter.apply(new GlobalLoggingFilter.Config())))
                             .uri(route.getUri()));
         }
