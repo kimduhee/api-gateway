@@ -23,20 +23,15 @@ public class GlobalLoggingFilter extends AbstractGatewayFilterFactory<GlobalLogg
             ServerHttpRequest request = exchange.getRequest();
             ServerHttpResponse response = exchange.getResponse();
 
-            if(config.isPreLogger()) {
-                log.info("request : {}", request.getId());
-            }
+            log.info("request : {}", request.getId());
+
             return chain.filter(exchange).then(Mono.fromRunnable(() -> {
-                if(config.isPostLogger()) {
-                    log.info("response : {}", response.getStatusCode());
-                }
+                log.info("response : {}", response.getStatusCode());
             }));
         };
     }
 
     @Data
     public static class Config {
-        private boolean preLogger = true;
-        private boolean postLogger = true;
     }
 }
