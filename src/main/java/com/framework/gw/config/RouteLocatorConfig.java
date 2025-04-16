@@ -1,7 +1,7 @@
 package com.framework.gw.config;
 
 import com.framework.gw.entity.RouteEntity;
-import com.framework.gw.filter.GlobalLoggingFilter;
+import com.framework.gw.filter.LoggingFilter;
 import com.framework.gw.repository.RouteRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.route.RouteLocator;
@@ -16,11 +16,11 @@ import java.util.List;
 public class RouteLocatorConfig {
 
     private final RouteRepository routeRepository;
-    private final GlobalLoggingFilter globalLoggingFilter;
+    private final LoggingFilter loggingFilter;
 
-    public RouteLocatorConfig(RouteRepository routeRepository, GlobalLoggingFilter globalLoggingFilter) {
+    public RouteLocatorConfig(RouteRepository routeRepository, LoggingFilter loggingFilter) {
         this.routeRepository = routeRepository;
-        this.globalLoggingFilter = globalLoggingFilter;
+        this.loggingFilter = loggingFilter;
     }
 
     /**
@@ -52,7 +52,7 @@ public class RouteLocatorConfig {
                             .filters(f -> f
                                     .addRequestHeader("request", "request-header")
                                     .addResponseHeader("response", "response-header")
-                                    .filter(globalLoggingFilter.apply(new GlobalLoggingFilter.Config())))
+                                    .filter(loggingFilter.apply(new LoggingFilter.Config())))
                             .uri(route.getUri()));
         }
 

@@ -6,26 +6,31 @@ spring:
     name: gw
 
   datasource:
-    driver-class-name: org.h2.Driver
-    url: 'jdbc:h2:mem:testdb'   # H2 DB 설정(In-Memory Mode)
-    username: sa
-    password:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/gateway
+    username: namanok
+    password: namanok
 
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
+#  h2:
+#    console:
+#      enabled: true
+#      path: /h2-console
 
   # JPA
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.dialect.MariaDBDialect
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.H2Dialect
+#        dialect: org.hibernate.dialect.H2Dialect
         format_sql: true
         show_sql: true
+logging:
+  level:
+    org.hibernate:
+      type.descriptor.sql: trace
+      SQL: DEBUG
 
 # 운영 yml파일에는 아래 설정부분 제거(외부에서 refresh 방지)
 # http://localhost:9000/actuator/gateway/routes 로 route 조회
