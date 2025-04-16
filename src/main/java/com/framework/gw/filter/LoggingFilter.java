@@ -20,12 +20,18 @@ public class LoggingFilter extends AbstractGatewayFilterFactory<LoggingFilter.Co
     @Override
     public GatewayFilter apply(Config config) {
         return (exchange, chain) -> {
+
+            //TODO 로그적재를 위해 식별값과 함께 요청 값(body값 또는 parameter값)에 대해서 비동기 전송
+
             ServerHttpRequest request = exchange.getRequest();
             ServerHttpResponse response = exchange.getResponse();
 
             log.info("request : {}", request.getId());
+            log.info("request : {}", request.getQueryParams());
+            log.info("request : {}", request.getBody());
 
             return chain.filter(exchange).then(Mono.fromRunnable(() -> {
+                log.info("LoggingFilter response execute.");
                 log.info("response : {}", response.getStatusCode());
             }));
         };

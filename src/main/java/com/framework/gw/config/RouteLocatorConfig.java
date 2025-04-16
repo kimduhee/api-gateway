@@ -1,6 +1,7 @@
 package com.framework.gw.config;
 
 import com.framework.gw.entity.RouteEntity;
+import com.framework.gw.filter.JwtValidFilter;
 import com.framework.gw.filter.LoggingFilter;
 import com.framework.gw.repository.RouteRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -17,10 +18,14 @@ public class RouteLocatorConfig {
 
     private final RouteRepository routeRepository;
     private final LoggingFilter loggingFilter;
+    private final JwtValidFilter jwtValidFilter;
 
-    public RouteLocatorConfig(RouteRepository routeRepository, LoggingFilter loggingFilter) {
+    public RouteLocatorConfig(RouteRepository routeRepository,
+                              LoggingFilter loggingFilter,
+                              JwtValidFilter jwtValidFilter) {
         this.routeRepository = routeRepository;
         this.loggingFilter = loggingFilter;
+        this.jwtValidFilter = jwtValidFilter;
     }
 
     /**
@@ -40,19 +45,20 @@ public class RouteLocatorConfig {
             log.info("- Route info");
         }
 
-        for (RouteEntity route : routeList) {
+        for(RouteEntity route : routeList) {
             if(log.isInfoEnabled()) {
                 log.info("- route id:[{}], path:[{}], uri:[{}]", route.getRouteId(), route.getPath(), route.getUri());
             }
 
             routes.route(route.getRouteId(),
                     r -> r
-                            .order(-1)
                             .path(route.getPath())
                             .filters(f -> f
                                     .addRequestHeader("request", "request-header")
                                     .addResponseHeader("response", "response-header")
-                                    .filter(loggingFilter.apply(new LoggingFilter.Config())))
+                                    //나열한 순서로 filter 실행
+                                    .filters(loggingFilter.apply(new LoggingFilter.Config())
+                                            ,jwtValidFilter.apply(new JwtValidFilter.Config())))
                             .uri(route.getUri()));
         }
 
