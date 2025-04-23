@@ -29,7 +29,14 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'io.micrometer:micrometer-registry-prometheus'
 	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+	implementation 'com.github.loki4j:loki-logback-appender:1.5.1'
+	implementation 'io.micrometer:micrometer-tracing-bridge-brave'
+	implementation 'io.zipkin.reporter2:zipkin-reporter-brave'
+
+	//spring boot 3.X에서는 사용 못합
+	//implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
 
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client:2.7.4'
 	//runtimeOnly 'com.h2database:h2'

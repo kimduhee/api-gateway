@@ -57,8 +57,9 @@ public class RouteLocatorConfig {
                                     .addRequestHeader("request", "request-header")
                                     .addResponseHeader("response", "response-header")
                                     //나열한 순서로 filter 실행
-                                    .filters(loggingFilter.apply(new LoggingFilter.Config())
-                                            ,jwtValidFilter.apply(new JwtValidFilter.Config())))
+//                                    .filters(loggingFilter.apply(new LoggingFilter.Config())
+//                                            ,jwtValidFilter.apply(new JwtValidFilter.Config())))
+                                    .filters(loggingFilter.apply(new LoggingFilter.Config())))
                             .uri(route.getUri()));
         }
 

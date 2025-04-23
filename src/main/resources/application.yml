@@ -26,11 +26,11 @@ spring:
 #        dialect: org.hibernate.dialect.H2Dialect
         format_sql: true
         show_sql: true
-logging:
-  level:
-    org.hibernate:
-      type.descriptor.sql: trace
-      SQL: DEBUG
+#logging:
+#  level:
+#    org.hibernate:
+#      type.descriptor.sql: trace
+#      SQL: DEBUG
 
 # 운영 yml파일에는 아래 설정부분 제거(외부에서 refresh 방지)
 # http://localhost:9000/actuator/gateway/routes 로 route 조회
@@ -38,7 +38,20 @@ management:
   endpoints:
     web:
       exposure:
-        include: gateway
+        include: gateway, health, info, prometheus
   endpoint:
     gateway:
       enabled: true # default: true
+  tracing:
+    sampling:
+      probability: 1.0
+    propagation:
+      consume: b3
+      produce: b3_multi
+  zipkin:
+    tracing:
+      endpoint: "http://localhost:9411/api/v2/spans"
+
+logging:
+  pattern:
+    level: "%5p [%X{traceId:-},%X{spanId:-}]"
