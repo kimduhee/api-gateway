@@ -1,6 +1,6 @@
 package com.framework.gw.config;
 
-import com.framework.gw.entity.RouteEntity;
+import com.framework.gw.entity.RouteInfo;
 import com.framework.gw.filter.JwtValidFilter;
 import com.framework.gw.filter.LoggingFilter;
 import com.framework.gw.repository.RouteRepository;
@@ -9,11 +9,14 @@ import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.List;
+import org.springframework.data.r2dbc.config.EnableR2dbcAuditing;
+import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories;
+import reactor.core.publisher.Flux;
 
 @Slf4j
 @Configuration
+//@EnableR2dbcRepositories
+//@EnableR2dbcAuditing
 public class RouteLocatorConfig {
 
     private final RouteRepository routeRepository;
@@ -38,14 +41,14 @@ public class RouteLocatorConfig {
     public RouteLocator dynamicRoutes(RouteLocatorBuilder builder) {
         RouteLocatorBuilder.Builder routes = builder.routes();
 
-        List<RouteEntity> routeList = routeRepository.findAll();
+        Flux<RouteInfo> routeList = routeRepository.findAll();
 
         if(log.isInfoEnabled()) {
             log.info("----------------------------------");
             log.info("- Route info");
         }
 
-        for(RouteEntity route : routeList) {
+        for(RouteInfo route : routeList.toIterable()) {
             if(log.isInfoEnabled()) {
                 log.info("- route id:[{}], path:[{}], uri:[{}]", route.getRouteId(), route.getPath(), route.getUri());
             }

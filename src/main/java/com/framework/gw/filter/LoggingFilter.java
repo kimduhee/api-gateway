@@ -2,23 +2,20 @@ package com.framework.gw.filter;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.bouncycastle.util.Strings;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
-import org.springframework.cloud.gateway.support.ServerWebExchangeUtils;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferUtils;
-import org.springframework.http.codec.HttpMessageReader;
 import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.http.server.reactive.ServerHttpRequestDecorator;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.server.HandlerStrategies;
-import org.springframework.web.reactive.function.server.ServerRequest;
-import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.nio.charset.StandardCharsets;
-import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Slf4j
 @Component
@@ -38,14 +35,6 @@ public class LoggingFilter extends AbstractGatewayFilterFactory<LoggingFilter.Co
             ServerHttpRequest request = exchange.getRequest();
             ServerHttpResponse response = exchange.getResponse();
 
-            log.info("request : {}", request.getId());
-            log.info("request : {}", request.getQueryParams());
-
-            Flux<DataBuffer> requestBody = exchange.getRequest().getBody();
-
-            getBodyAsBytes(requestBody);
-
-            log.info("requestBody.log() : {}" , requestBody.log());
             return chain.filter(exchange).then(Mono.fromRunnable(() -> {
                 log.info("LoggingFilter response execute.");
                 log.info("response : {}", response.getStatusCode());
@@ -57,17 +46,4 @@ public class LoggingFilter extends AbstractGatewayFilterFactory<LoggingFilter.Co
     public static class Config {
 
     }
-
-    public Mono<byte[]> getBodyAsBytes(Flux<DataBuffer> body) {
-        return DataBufferUtils.join(body)
-                .map(
-                        dataBuffer -> {
-                            byte[] bytes = new byte[dataBuffer.readableByteCount()];
-                            dataBuffer.read(bytes);
-                            DataBufferUtils.release(dataBuffer);
-                            return bytes;
-                        }
-                );
-    }
-
 }

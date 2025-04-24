@@ -1,7 +1,9 @@
 package com.framework.gw.repository;
 
-import com.framework.gw.entity.RouteEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.framework.gw.entity.RouteInfo;
+import org.springframework.data.repository.reactive.ReactiveCrudRepository;
+import org.springframework.stereotype.Repository;
 
-public interface RouteRepository extends JpaRepository<RouteEntity, String> {
+@Repository
+public interface RouteRepository extends ReactiveCrudRepository<RouteInfo, String> {
 }
