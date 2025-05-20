@@ -1,14 +1,13 @@
 server:
-  port: 9000
+  port: 8080
 
 spring:
   application:
     name: gw
 
-
   #R2DBC-mariadb 설정
   r2dbc:
-    url: r2dbc:mariadb://localhost:3306/gateway
+    url: r2dbc:mariadb://172.26.96.1:3306/gateway
     username: namanok
     password: namanok
 

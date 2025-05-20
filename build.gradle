@@ -46,13 +46,13 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt:0.9.1'
 
 	//Loki Logging logback
-	//implementation 'com.github.loki4j:loki-logback-appender:1.5.1'
+	implementation 'com.github.loki4j:loki-logback-appender:1.5.1'
 
 	//traceId, spanId 정보제공
 	implementation 'io.micrometer:micrometer-tracing-bridge-brave'
 	implementation 'io.zipkin.reporter2:zipkin-reporter-brave'
 
-	//spring boot 3.X에서는 사용 못합
+	//spring boot 3.X에서는 사용 못함
 	//implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
 
 	//lombok
@@ -64,7 +64,7 @@ dependencies {
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+	//useJUnitPlatform()
 }
 
 dependencyManagement {
