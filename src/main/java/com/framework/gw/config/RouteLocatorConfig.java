@@ -5,6 +5,7 @@ import com.framework.gw.filter.JwtValidFilter;
 import com.framework.gw.filter.LoggingFilter;
 import com.framework.gw.repository.RouteRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cloud.gateway.filter.factory.CacheRequestBodyGatewayFilterFactory;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
@@ -22,13 +23,16 @@ public class RouteLocatorConfig {
     private final RouteRepository routeRepository;
     private final LoggingFilter loggingFilter;
     private final JwtValidFilter jwtValidFilter;
+    private final CacheRequestBodyGatewayFilterFactory cacheRequestBodyGatewayFilterFactory;
 
     public RouteLocatorConfig(RouteRepository routeRepository,
                               LoggingFilter loggingFilter,
-                              JwtValidFilter jwtValidFilter) {
+                              JwtValidFilter jwtValidFilter,
+                              CacheRequestBodyGatewayFilterFactory cacheRequestBodyGatewayFilterFactory) {
         this.routeRepository = routeRepository;
         this.loggingFilter = loggingFilter;
         this.jwtValidFilter = jwtValidFilter;
+        this.cacheRequestBodyGatewayFilterFactory = cacheRequestBodyGatewayFilterFactory;
     }
 
     /**
@@ -44,7 +48,6 @@ public class RouteLocatorConfig {
         Flux<RouteInfo> routeList = routeRepository.findAll();
 
         if(log.isInfoEnabled()) {
-            log.info("----------------------------------");
             log.info("- Route info");
         }
 
@@ -57,17 +60,14 @@ public class RouteLocatorConfig {
                     r -> r
                             .path(route.getPath())
                             .filters(f -> f
-                                    .addRequestHeader("request", "request-header")
-                                    .addResponseHeader("response", "response-header")
+                                    //.addRequestHeader("request", "request-header")
+                                    //.addResponseHeader("response", "response-header")
                                     //나열한 순서로 filter 실행
-//                                    .filters(loggingFilter.apply(new LoggingFilter.Config())
-//                                            ,jwtValidFilter.apply(new JwtValidFilter.Config())))
-                                    .filters(loggingFilter.apply(new LoggingFilter.Config())))
+                                    // CacheRequestBodyGatewayFilterFactory => body 값을 캐싱하기 위한 필터 적용
+                                    .filters(cacheRequestBodyGatewayFilterFactory.apply(new CacheRequestBodyGatewayFilterFactory.Config())
+                                            , loggingFilter.apply(new LoggingFilter.Config())
+                                            , jwtValidFilter.apply(new JwtValidFilter.Config())))
                             .uri(route.getUri()));
-        }
-
-        if(log.isInfoEnabled()) {
-            log.info("----------------------------------");
         }
 
         return routes.build();

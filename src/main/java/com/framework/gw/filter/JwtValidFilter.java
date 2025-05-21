@@ -34,7 +34,7 @@ public class JwtValidFilter extends AbstractGatewayFilterFactory<JwtValidFilter.
             boolean isLoginRequire = false;
 
             //TODO 조회결과에 대해 로그인이 필요한 서비스일 경우 isLoginRequire = true로 변경
-            isLoginRequire = true;
+            //isLoginRequire = true;
             //If the service requires login, check JWT
             if(isLoginRequire) {
                 if(!request.getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
