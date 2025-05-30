@@ -2,8 +2,10 @@
 # 개발환경
 + JDK 17(17.0.14)
 + IDE IntelliJ
-+ memory 8G >.<
-  <br/><br/>
++ Spring boot(3.4.4)
++ mariaDB
+
+<br/><br/>
 - - -
 # Spring Cloud Gateway(SCG) 주요 3요소
 ### Route
@@ -17,12 +19,11 @@ Predicate에 매칭되지 않을 경우 HTTP 404로 응답한다.
 ### Filter
 + 요청이나 응답의 전처리 및 후처리를 하며, 
 Proxy Filter는 프록시 요청에 처리될 때 수행되는 필터이다.
-- - -
-# 설정방법
-### java 설정(해당방법으로 진행)
+
 - - -
 # 기능정의
-### Route 설정 DB 관리(진행중)
+### Route 설정 DB 관리
+
 ### 서비스(api) 제한 시간 체크(예정)
 ### JWT 유효성 체크
 ### 대응답 모드(예정)
@@ -30,9 +31,11 @@ Proxy Filter는 프록시 요청에 처리될 때 수행되는 필터이다.
 jackson lib 의 PropertyNamingStrategies.class를 customizing
 + 처리방법론 고민
 ><b>BeanUtils.copyproperties(Reflection) 커스터마이징을 통한 방법이 있지 않을까?</b>
->>root에 대한 접근이며 하위 필드접근에 대한 어려움으로 제외
+>>root에 대한 접근이며 하위 필드접근에 대한 어려움
+>
+>>변경대상 Dto class가 존재해야 하는 이슈
 
-><b>이미 기능을 제공하고 있는 @JsonNaming을 커스터마이징 해서 처리</b>
+><b>이미 기능을 제공하고 있는 @JsonNaming(custom class)을 커스터마이징 해서 처리</b>
 >>모든 Dto에 @JsonNaming(custom class)을 포함시켜야 하는 번거로움 및 위험성
 
 ><b>(확정)신규 필드명 변경로직을 PropertyNamingStrategies에 추가후 ObjectMapper의 
@@ -58,7 +61,6 @@ com.framework.dto.Goods       goodsNm   상품명
 >- ObjectMapper의 setPropertyNamingStrategy(new PropertyNamingStrategies.ConvertCaseStrategy()); 설정
 >- 서비스 서버로 부터 전달받은 dto 클래스로 objectMapper.readValue를 사용하여 데이터 Deserialize 처리
 >- objectMapper.writeValueAsString를 사용하여 Serialize하여 response 응답
-
 
 ### 컨텍스트별/api별 통계(예정)
 ### 무중단 route 반영(예정_고민....)
