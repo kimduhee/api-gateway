@@ -29,7 +29,8 @@ Proxy Filter는 프록시 요청에 처리될 때 수행되는 필터이다.
 ### response field conversion
 jackson lib 의 PropertyNamingStrategies.class를 customizing
 + 관리자 페이지에서 field mapping rule 관련 셋팅
-<pre><code>DB구조
+<pre><code>
+DB구조                         필드명     변경필드명
 com.framework.dto.Category    cateId    카테고리ID
 com.framework.dto.Category    cateNm    카테고리명
 com.framework.dto.Goods       goodsId   상품ID
