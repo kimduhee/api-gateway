@@ -25,7 +25,17 @@ Proxy Filter는 프록시 요청에 처리될 때 수행되는 필터이다.
 ### Route 설정 DB 관리(진행중)
 ### 서비스(api) 제한 시간 체크(예정)
 ### JWT 유효성 체크
-### 대응답 모드(하드코딩응답)(예정)
+### 대응답 모드(예정)
+### response field conversion
+jackson lib 의 PropertyNamingStrategies.class를 customizing
++ 관리자 페이지에서 field mapping rule 관련 셋팅
+<pre><code>DB구조
+com.framework.dto.Category    cateId    카테고리ID
+com.framework.dto.Category    cateNm    카테고리명
+com.framework.dto.Goods       goodsId   상품ID
+com.framework.dto.Goods       goodsNm   상품명
+......
+</code></pre>
 ### 컨텍스트별/api별 통계(예정)
 ### 무중단 route 반영(예정_고민....)
 
