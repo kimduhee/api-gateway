@@ -60,7 +60,7 @@ com.framework.dto.Goods       goodsNm   상품명
 >- api gateway 서버에서 modifyResponseBody로 response 데이터 및 header값 추출<br>
 >- ObjectMapper의 setPropertyNamingStrategy(new PropertyNamingStrategies.ConvertCaseStrategy()); 설정
 >- 서비스 서버로 부터 전달받은 dto 클래스로 objectMapper.readValue를 사용하여 데이터 Deserialize 처리
->- objectMapper.writeValueAsString를 사용하여 Serialize하여 response 응답
+>- objectMapper.writeValueAsString를 사용하여 json 문자열로 변경하여 response 응답
 
 ### 컨텍스트별/api별 통계(예정)
 ### 무중단 route 반영(예정_고민....)

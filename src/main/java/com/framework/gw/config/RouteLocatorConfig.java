@@ -70,7 +70,7 @@ public class RouteLocatorConfig {
                                     .addRequestHeader("request", "request-header")
                                     .addResponseHeader("response", "response-header")
                                     .modifyResponseBody(String.class, String.class,
-                                            (exchange, s) -> Mono.just(responseStr(s, exchange.getResponse().getHeaders().get("package").get(0))))
+                                            (exchange, s) -> Mono.just(responseStr(s, exchange.getResponse().getHeaders().get("package") != null?exchange.getResponse().getHeaders().get("package").get(0):null)))
                                     .modifyRequestBody(String.class, String.class,
                                             (exchange, s) -> Mono.just(requestStr(s)))
                                     //나열한 순서로 filter 실행
@@ -107,14 +107,16 @@ public class RouteLocatorConfig {
         log.info("response orgin : {}", responseStr);
         log.info("response path : {}", className);
 
-        try {
-            ObjectMapper obj = objectMapper;
-            obj.setPropertyNamingStrategy(new PropertyNamingStrategies.ConvertCaseStrategy());
-            Object returnObj = obj.readValue(responseStr, Class.forName(className));
-            responseStr = obj.writeValueAsString(returnObj);
-            log.info("testText : {}", responseStr);
-        } catch(Exception e) {
-            log.info("Exception : {}", e);
+        if(className != null) {
+            try {
+                ObjectMapper obj = objectMapper;
+                obj.setPropertyNamingStrategy(new PropertyNamingStrategies.ConvertCaseStrategy());
+                Object returnObj = obj.readValue(responseStr, Class.forName(className));
+                responseStr = obj.writeValueAsString(returnObj);
+                log.info("testText : {}", responseStr);
+            } catch(Exception e) {
+                log.info("Exception : {}", e);
+            }
         }
 
 /*
