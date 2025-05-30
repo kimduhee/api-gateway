@@ -29,10 +29,12 @@ Proxy Filter는 프록시 요청에 처리될 때 수행되는 필터이다.
 ### 응답값의 field conversion
 jackson lib 의 PropertyNamingStrategies.class를 customizing
 + 처리방법론 고민
->-BeanUtils.copyproperties 커스터마이징을 통한 방법이 있지 않을까?<br>
->-Reflection을 통한 방법이 있지 않을까?<br>
->-ObjectMapper를 사용한 방법이 있지 않을까?<br>
->-(확정)이미 기능을 제공하고 있는 @JsonNaming을 커스터마이징 해서 처리
+>-BeanUtils.copyproperties(Reflection) 커스터마이징을 통한 방법이 있지 않을까?<br>
+>=>root에 대한 접근이며 하위 필드접근에 대한 어려움으로 제외
+>-이미 기능을 제공하고 있는 @JsonNaming을 커스터마이징 해서 처리<br>
+>=>모든 Dto에 @JsonNaming(custom class)을 포함시켜야 하는 번거로움 및 위험성<br>
+>-(확정)신규 필드명 변경로직을 PropertyNamingStrategies에 추가후 ObjectMapper의 
+>setPropertyNamingStrategy를 활용하여 필드명 변경
 
 + 관리자 페이지에서 field mapping rule 관련 셋팅
 <pre><code>DB구조                        필드명     변경필드명
