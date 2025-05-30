@@ -28,15 +28,22 @@ Proxy Filter는 프록시 요청에 처리될 때 수행되는 필터이다.
 ### 대응답 모드(예정)
 ### response field conversion
 jackson lib 의 PropertyNamingStrategies.class를 customizing
++ 처리방법론 고민
+>- BeanUtils.copyproperties 커스터마이징을 통한 방법이 있지 않을까?
+>- Reflection을 통한 방법이 있지 않을까?
+>- ObjectMapper를 사용한 방법이 있지 않을까?
+>- (확정)이미 기능을 제공하고 있는 @JsonNaming을 커스터마이징 해서 처리 
+</code></pre>
 + 관리자 페이지에서 field mapping rule 관련 셋팅
 <pre><code>
-DB구조                         필드명     변경필드명
+DB구조                        필드명     변경필드명
 com.framework.dto.Category    cateId    카테고리ID
 com.framework.dto.Category    cateNm    카테고리명
 com.framework.dto.Goods       goodsId   상품ID
 com.framework.dto.Goods       goodsNm   상품명
 ......
 </code></pre>
+
 ### 컨텍스트별/api별 통계(예정)
 ### 무중단 route 반영(예정_고민....)
 
