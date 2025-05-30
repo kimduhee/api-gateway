@@ -110,8 +110,8 @@ public class RouteLocatorConfig {
         try {
             ObjectMapper obj = objectMapper;
             obj.setPropertyNamingStrategy(new PropertyNamingStrategies.ConvertCaseStrategy());
-            Object test = obj.readValue(responseStr, Class.forName(className));
-            responseStr = obj.writeValueAsString(test);
+            Object returnObj = obj.readValue(responseStr, Class.forName(className));
+            responseStr = obj.writeValueAsString(returnObj);
             log.info("testText : {}", responseStr);
         } catch(Exception e) {
             log.info("Exception : {}", e);

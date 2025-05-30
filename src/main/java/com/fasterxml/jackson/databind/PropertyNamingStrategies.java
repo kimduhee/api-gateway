@@ -246,25 +246,7 @@ public abstract class PropertyNamingStrategies implements Serializable {
                  * 필드명: cateNm => 변경할 필드명: 카테고리명
                  */
                 Mono<InterfaceInfoEntity> dbData = interfaceService.interfaceList(method.getDeclaringClass().getName(), method.getDeclaringClass().getDeclaredField(defaultName).getName());
-/*
-                //해당 부분은 비동기로 처리 되기 때문에 값을 받기 전에 이미 return 되기 때문에
-                //원하는 값을 return 할수 없다.
-                AtomicReference<String> atomic = new AtomicReference<>(convKeyName);
-                //subscribe() 메서드를 사용하여 Mono 값 구독
-                Mono.just(dbData).block().subscribe(
-                        value -> {
-                            atomic.set(value.getNewName()); // 값 처리
-                            this.translate(value.getNewName());
-                        },
-                        error -> {
-                            System.err.println("Error: " + error); // 에러 처리
-                        },
-                        () -> {
-                            System.out.println("Completed!"); // 완료 처리
-                        }
-                );
-                convKeyName = atomic.get();
-*/
+
                 //동기 처리하여 DB 데이터 값을 return 한다.
                 Future<InterfaceInfoEntity> future = dbData.toFuture();
                 InterfaceInfoEntity interfaceInfo = future.get();
