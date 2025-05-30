@@ -38,6 +38,8 @@ jackson lib 의 PropertyNamingStrategies.class를 customizing
 ><b>(확정)신규 필드명 변경로직을 PropertyNamingStrategies에 추가후 ObjectMapper의 
 setPropertyNamingStrategy를 활용하여 필드명 변경</b>
 
+<br>
+
 + 관리자 페이지에서 field mapping rule 관련 셋팅
 <pre><code>DB구조                        필드명     변경필드명
 com.framework.dto.Category    cateId    카테고리ID
@@ -46,13 +48,17 @@ com.framework.dto.Goods       goodsId   상품ID
 com.framework.dto.Goods       goodsNm   상품명
 ......
 </code></pre>
+<br>
+
 + 처리과정
->- json lib의 PropertyNamingStrategies를 동일한 패키지생성 및 복사하여 DB 또는 redis 조회하여 필드명 변경하는 로직 구현 
+>- Dto는 공유 lib로 처리
+>- json lib의 PropertyNamingStrategies class를 동일한 패키지생성 및 복사하여 DB 또는 redis 조회하여 필드명 변경하는 로직 구현 
 >- 서비스 서버에서 header값에 response dto(패키지 + 클래스명) 정보를 전달<br>
 >- api gateway 서버에서 modifyResponseBody로 response 데이터 및 header값 추출<br>
 >- ObjectMapper의 setPropertyNamingStrategy(new PropertyNamingStrategies.ConvertCaseStrategy()); 설정
 >- 서비스 서버로 부터 전달받은 dto 클래스로 objectMapper.readValue를 사용하여 데이터 Deserialize 처리
 >- objectMapper.writeValueAsString를 사용하여 Serialize하여 response 응답
+
 
 ### 컨텍스트별/api별 통계(예정)
 ### 무중단 route 반영(예정_고민....)
